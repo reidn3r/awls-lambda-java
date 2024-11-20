@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+  localstack:
+    container_name: localstack
+    network_mode: bridge
+    image: localstack/localstack:latest
+    ports:
+      - "127.0.0.1:4566:4566"
+      - "127.0.0.1:4571:4571"
+    environment:
+      - SERVICES=s3,lambda
+      - LAMBDA_EXECUTOR=docker-reuse
+      - LAMBDA_DOCKER_IMAGE=public.ecr.aws/lambda/java:17
+      
+      #AWS Config
+      
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
